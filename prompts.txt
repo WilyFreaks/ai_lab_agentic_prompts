@@ -1,9 +1,7 @@
 List Splunk indexes using MCP server.
 
-Draw a line chart for the input packet rate per minute for R2 interfaces for the last 60 minutes.
 Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to.
 
-Draw a line chart for the input packet rate per minute for R2 interfaces for the last 60 minutes, but this time use helpful saved searches available rather than running raw SPL.
 Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to, but this time use helpful saved searches available rather than running raw SPL.
 
 Summarize in a canvas report the difference in the total resonse time in seconds, the accuracy risk, and the LLM token usage between two agent approaches, from the time you receive the user prompt to the time you responde with the final results to draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces, one is only to use raw SPL and the other is to use effective saved searches. Don't estimate. Run both agent actually to measure the difference.
