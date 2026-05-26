@@ -1,0 +1,19 @@
+List Splunk indexes using MCP server.
+
+Draw a line chart for the input packet rate per minute for R2 interfaces for the last 60 minutes.
+Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to.
+
+Draw a line chart for the input packet rate per minute for R2 interfaces for the last 60 minutes, but this time use helpful saved searches available rather than running raw SPL.
+Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to, but this time use helpful saved searches available rather than running raw SPL.
+
+Summarize in a canvas report the difference in the total resonse time in seconds, the accuracy risk, and the LLM token usage between two agent approaches, from the time you receive the user prompt to the time you responde with the final results to draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces, one is only to use raw SPL and the other is to use effective saved searches. Don't estimate. Run both agent actually to measure the difference.
+
+I observe a backbone network issue causing latency in the thousandeyes monitoring metrics around <<TIME_SCENARIO_ACTIVATION>>. Please identify the root cause and suggest the actions to fix it. generate a canvas report in this workspace.
+
+I saved a new rules.md under .cursor/rules. convert it into *.mdc.
+
+I observe a backbone network issue causing latency in the thousandeyes monitoring metrics around <<TIME_SCENARIO_ACTIVATION>>. Please identify the root cause and suggest the actions to fix it. generate a canvas report with deep analysis in its name in this workspace not to overwrite existing report.
+
+When comparing agent performance across two configurations (with vs. without rules/skills), do not compare latency or token usage directly if the two agents achieved different levels of investigation depth or accuracy. Instead, present three columns: (1) Case A as-run with its actual accuracy, (2) Case A estimated-to-parity — the projected cost in turns, human prompts, and tokens required to reach the same depth as Case B through iterative human guidance — and (3) Case B as-run. The parity estimate must account for context compounding: input tokens grow with each human re-prompt because the full conversation history is re-sent to the LLM on every turn. Include expert human time as a cost dimension alongside token counts." or ""A faster agent that answers less completely is not cheaper — estimate the cost-to-parity before claiming a token saving.
+
+Suggest new Splunk saved searches to save the context preparation that the agent can use in the next time when the same issue happens. Also, suggest the skill update to use it. Please don't update at this stage.
