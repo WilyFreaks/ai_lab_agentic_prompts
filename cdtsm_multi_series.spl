@@ -1,0 +1,57 @@
+[Multi Series Forecasting]
+index=telemetry sourcetype=cnc_interface_counter_json 
+| spath path=devices{} output=device 
+| fields - _raw 
+| mvexpand device 
+| spath input=device path=host_name output=host_name 
+| spath input=device path=uuid output=uuid 
+| rex field=device max_match=0 "\"(?<if_name>(?:HundredGigE|Bundle-Ether)[^\"]+)\"" 
+| mvexpand if_name 
+| search if_name!="Bundle-Ether145" 
+| lookup router_if_connections_bidirectional.csv router1_name as host_name interface1 as if_name 
+| eval ifInPktsRate = json_extract(device, "interfaces." . if_name . ".ifInPktsRate.latest_data.value") 
+| eval ifOutPktsRate = json_extract(device, "interfaces." . if_name . ".ifOutPktsRate.latest_data.value") 
+| eval timestamp = json_extract(device, "interfaces." . if_name . ".ifInPktsRate.latest_data.timestamp") 
+| eval if_name = host_name.":".router1."_".if_name 
+| bin _time span=1m 
+| stats avg(ifInPktsRate) by if_name _time
+| apply CDTSM avg(ifInPktsRate) by if_name holdback=128 forecast_k=128 conf_interval=98 
+| rename lower98(predicted(*)) as *@lower_bound, upper98(predicted(*)) as *@upper_bound, predicted(*) as *@prediction
+| streamstats count by if_name reset_on_change=t
+| eventstats max(count) by if_name
+| where count > 'max(count)' - 60
+| fields - count max(count)
+
+[Multi Series Forecasting: Large Groups]
+source="client_bytes.csv.zip:*" host="client_bytes" earliest=01/01/2022:0:0:0 latest=01/01/2023:0:0:0
+| bin _time span=10m
+| stats count sum(bytes) as bytes by clientip _time
+| apply CDTSM bytes by clientip holdback=128 forecast_k=128 conf_interval=98
+| search clientip=123.196.113.11
+
+[Multi Series Anomaly Detections]
+index=telemetry sourcetype=cnc_interface_counter_json 
+| spath path=devices{} output=device 
+| fields - _raw 
+| mvexpand device 
+| spath input=device path=host_name output=host_name 
+| spath input=device path=uuid output=uuid 
+| rex field=device max_match=0 "\"(?<if_name>(?:HundredGigE|Bundle-Ether)[^\"]+)\"" 
+| mvexpand if_name 
+| search if_name!="Bundle-Ether145" 
+| lookup router_if_connections_bidirectional.csv router1_name as host_name interface1 as if_name 
+| eval ifInPktsRate = json_extract(device, "interfaces." . if_name . ".ifInPktsRate.latest_data.value") 
+| eval ifOutPktsRate = json_extract(device, "interfaces." . if_name . ".ifOutPktsRate.latest_data.value") 
+| eval timestamp = json_extract(device, "interfaces." . if_name . ".ifInPktsRate.latest_data.timestamp") 
+| eval if_name = host_name.":".router1."_".if_name 
+| bin _time span=1m 
+| stats avg(ifInPktsRate) by if_name _time
+| apply CDTSM avg(ifInPktsRate) by if_name detection_window_earliest=-640m detection_window_latest=now mode=anomaly conf_interval=60 quantile_upper=0.8 quantile_lower=0.2 multiplier=5
+| search if_name=R2-NCS5504:R2_HundredGigE0/0/0/0
+
+[Multi Series Anomaly Detections: Large Groups]
+source="client_bytes.csv.zip:*" host="client_bytes" earliest=12/01/2022:0:0:0 latest=01/01/2023:0:0:0 clientip IN (128.241.220.82, 188.138.40.166, 194.215.205.19)
+| bin _time span=10m
+| stats count sum(bytes) as bytes by clientip _time
+| apply CDTSM bytes by clientip detection_window_earliest="2022-12-31 00:00:00" detection_window_latest="2023-01-01 00:00:00" mode=anomaly conf_interval=60 quantile_upper=0.8 quantile_lower=0.2 multiplier=1
+| search clientip=194.215.205.19
