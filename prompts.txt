@@ -1,10 +1,10 @@
 List Splunk indexes using MCP server.
 
-Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to.
+Test A: Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces.
 
-Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces. Label each line by the peer router it connects to, but this time use helpful saved searches available in ai_lab app rather than running raw SPL.
+Test B: Draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces, but this time use cnc_interface_ifInPktsRate_for_a_router saved search with router="R2" in ai_lab app rather than running raw SPL. 
 
-Summarize in a canvas report the difference in the total resonse time in seconds, the accuracy risk, and the LLM token usage between two agent approaches, from the time you receive the user prompt to the time you responde with the final results to draw a line chart of input packet rate per minute for the last 60 minutes for R2's interfaces, one is only to use raw SPL and the other is to use effective saved searches. Don't estimate. Run both agent actually to measure the difference.
+Summarize in a canvas report the difference in the total resonse time in seconds, the accuracy risk, and the LLM token usage between two agent approaches, Test A and B you just ran. Don't estimate. Run both agent actually to measure the difference.
 
 I observe a backbone network issue causing latency in the thousandeyes monitoring metrics around <<TIME_SCENARIO_ACTIVATION>>. Please identify the root cause and suggest the actions to fix it. generate a canvas report in this workspace.
 
